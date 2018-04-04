@@ -71,7 +71,7 @@ export function createBlock( name, blockAttributes = {}, innerBlocks = [] ) {
  *
  * @return {Object} A cloned block.
  */
-export function cloneBlock( block, mergeAttributes = {}, innerBlocks = block.innerBlocks ) {
+export function cloneBlock( block, mergeAttributes = {}, innerBlocks ) {
 	return {
 		...block,
 		uid: uuid(),
@@ -79,7 +79,9 @@ export function cloneBlock( block, mergeAttributes = {}, innerBlocks = block.inn
 			...block.attributes,
 			...mergeAttributes,
 		},
-		innerBlocks,
+		innerBlocks: innerBlocks ?
+			innerBlocks :
+			( block.innerBlocks || [] ).map( ( innerBlock ) => cloneBlock( innerBlock ) ),
 	};
 }
 
